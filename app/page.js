@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react";
+import LoginButton from "./components/LoginButton";
 
-const  App = () => {
+const App = () => {
   return (
-    <div> This is the main App, Thank You</div>
-  )
-}
+    <div>
+      <div>This is the main App, Thank You.</div>
 
-export default  App
+      <LoginButton />
+    </div>
+  );
+};
+
+export default App;
