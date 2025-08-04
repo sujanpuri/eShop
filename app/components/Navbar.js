@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useSession, signIn, signOut } from "next-auth/react";
-import { Handbag, Menu, ShoppingCart, Loader } from "lucide-react";
+import { Handbag, Menu, ShoppingCart, Loader, X } from "lucide-react";
 import { useState } from "react";
 import Button from "./ui/Button";
 import SearchBar from "./ui/SearchBar";
@@ -31,9 +31,9 @@ export default function Navbar() {
           <Link href="/routes/products" className="hover:text-gray-300">
             Products
           </Link>
-          <Link href="/routes/categories" className="hover:text-gray-300">
+          {/* <Link href="/routes/categories" className="hover:text-gray-300">
             Categories
-          </Link>
+          </Link> */}
           <Link href="/routes/about" className="hover:text-gray-300">
             About
           </Link>
@@ -94,8 +94,8 @@ export default function Navbar() {
           )}
 
           {/* Menu Icon */}
-          <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden">
-            <Menu className="w-6 h-6" />
+          <button onClick={() => {setMenuOpen(!menuOpen), setMenuOpen(!menuOpen)}} className="md:hidden">
+            {menuOpen?(<X className="w-6 h-6" />):(<Menu className="w-6 h-6" />)}
           </button>
         </div>
       </div>
@@ -103,19 +103,19 @@ export default function Navbar() {
       {/* MOBILE MENU */}
       {menuOpen && (
         <div className="md:hidden mt-4 space-y-2">
-          <div className="flex justify-around items-center">
+          <div className="flex justify-around items-center mt-5">
             <Link href="/" className="block hover:text-gray-300">
               Home
             </Link>
             <Link href="/routes/products" className="block hover:text-gray-300">
               Products
             </Link>
-            <Link
+            {/* <Link
               href="/routes/categories"
               className="block hover:text-gray-300"
             >
               Categories
-            </Link>
+            </Link> */}
             <Link href="/routes/about" className="block hover:text-gray-300">
               About
             </Link>
