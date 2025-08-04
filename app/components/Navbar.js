@@ -1,44 +1,157 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { Handbag, Menu, ShoppingCart, Loader } from "lucide-react";
+import { useState } from "react";
+import Button from "./ui/Button";
+import SearchBar from "./ui/SearchBar";
 
 export default function Navbar() {
   const { data: session, status } = useSession();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="bg-gray-900 text-white p-4 flex justify-between items-center">
-      <div className="flex items-center space-x-6">
-        <Link href="/" className="text-xl font-bold hover:text-gray-300">
-          MyShop
-        </Link>
-        <Link href="/routes/products" className="hover:text-gray-300">
-          Products
-        </Link>
-        <Link href="/routes/profile" className="hover:text-gray-300">
-          Profile
-        </Link>
+    <nav className="bg-gray-900 text-white p-4">
+      <div className="flex w-full justify-between items-center">
+        {/* LEFT: Logo and Title */}
+        <div className="flex items-center space-x-3">
+          <Handbag className="w-10 h-10 text-gray-800 bg-white p-2 rounded-full shadow" />
+          <Link href="/" className="text-2xl font-bold hover:text-gray-300">
+            MyShop
+          </Link>
+        </div>
+
+        {/* CENTER: Navigation Links (Desktop only) */}
+        <div className="hidden md:flex flex-1 justify-center space-x-6">
+          <Link href="/" className="hover:text-gray-300">
+            Home
+          </Link>
+          <Link href="/routes/products" className="hover:text-gray-300">
+            Products
+          </Link>
+          <Link href="/routes/categories" className="hover:text-gray-300">
+            Categories
+          </Link>
+          <Link href="/routes/about" className="hover:text-gray-300">
+            About
+          </Link>
+        </div>
+
+        {/* RIGHT: Search, Cart, Profile, Menu */}
+        <div className="flex text-white items-center space-x-4">
+          <SearchBar className="hidden md:block" />
+
+          <Link href="/routes/cart">
+            <ShoppingCart className="w-5 h-5 text-white hover:text-gray-400" />
+          </Link>
+
+          {status === "loading" ? (
+            <Button
+              disabled
+              className="hidden md:flex items-center gap-2 px-4 py-1 text-sm h-auto whitespace-nowrap text-center"
+            >
+              <Loader className="animate-spin w-4 h-4" />
+              <p>Loading...</p>
+            </Button>
+          ) : status === "authenticated" ? (
+            <>
+              <div className="w-7 h-7 min-w-[24px] min-h-[24px]">
+                <Link
+                  href="/routes/profile"
+                  className="block hover:text-gray-300"
+                >
+                  <Image
+                    src={session.user.image}
+                    alt="Profile Picture"
+                    width={36}
+                    height={36}
+                    className="rounded-full object-cover"
+                  />
+                </Link>
+              </div>
+              <Button
+                onClick={() => {
+                  const confirmLogout = window.confirm(
+                    "Are you sure you want to sign out?"
+                  );
+                  if (confirmLogout) signOut();
+                }}
+                variant="danger"
+                className="hidden md:block text-center px-4 py-1 text-sm h-auto whitespace-nowrap"
+              >
+                Sign out
+              </Button>
+            </>
+          ) : (
+            <Button
+              onClick={() => signIn("google")}
+              className="hidden md:block text-center px-4 py-1 text-sm h-auto whitespace-nowrap hover:text-blue-400"
+            >
+              Login with Google
+            </Button>
+          )}
+
+          {/* Menu Icon */}
+          <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden">
+            <Menu className="w-6 h-6" />
+          </button>
+        </div>
       </div>
 
-      <div>
-        {status === "loading" ? (
-          <p>Loading...</p>
-        ) : session ? (
-          <button
-            onClick={() => signOut()}
-            className="bg-red-600 px-4 py-2 rounded hover:bg-red-700 transition"
-          >
-            Logout
-          </button>
-        ) : (
-          <button
-            onClick={() => signIn("google")}
-            className="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700 transition"
-          >
-            Login with Google
-          </button>
-        )}
-      </div>
+      {/* MOBILE MENU */}
+      {menuOpen && (
+        <div className="md:hidden mt-4 space-y-2">
+          <div className="flex justify-around items-center">
+            <Link href="/" className="block hover:text-gray-300">
+              Home
+            </Link>
+            <Link href="/routes/products" className="block hover:text-gray-300">
+              Products
+            </Link>
+            <Link
+              href="/routes/categories"
+              className="block hover:text-gray-300"
+            >
+              Categories
+            </Link>
+            <Link href="/routes/about" className="block hover:text-gray-300">
+              About
+            </Link>
+          </div>
+
+          <hr className="border-gray-600" />
+          <div className="flex items-center justify-between">
+            <SearchBar />
+
+            {status === "authenticated" ? (
+              <>
+                <Button
+                  onClick={() => {
+                    const confirmLogout = window.confirm(
+                      "Are you sure you want to sign out?"
+                    );
+                    if (confirmLogout) signOut();
+                  }}
+                  variant="danger"
+                  className="text-center px-4 py-1 text-sm h-auto whitespace-nowrap"
+                >
+                  Sign out
+                </Button>
+              </>
+            ) : (
+              <Button
+                onClick={() => signIn("google")}
+                className="text-center px-4 py-1 text-sm h-auto whitespace-nowrap hover:text-blue-400"
+              >
+                Login with Google
+              </Button>
+            )}
+          </div>
+          <hr className="border-gray-600" />
+        </div>
+      )}
     </nav>
   );
 }

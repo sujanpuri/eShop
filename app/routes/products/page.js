@@ -1,13 +1,12 @@
 "use client";
 
-import { useItems } from "@/app/context/ItemContext";
 import Image from "next/image";
+import { useItems } from "../../context/ItemContext.js";
 
 export default function ProductPage() {
   const { items, error } = useItems();
 
   if (error) return <p className="p-4 text-red-600">Error: {error}</p>;
-
   if (!items) return <p className="p-4">Loading products in background...</p>;
 
   // Group products by category

@@ -1,7 +1,7 @@
 // app/profile/page.js
 "use client";
 
-import { useUser } from "@/app/context/userContext";
+import { useUser } from "../../context/userContext.js";
 import Image from "next/image";
 
 const ProfilePage = () => {
