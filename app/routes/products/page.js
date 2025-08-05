@@ -54,14 +54,6 @@ export default function ProductsPage() {
     return <div className="text-red-500 text-center">Error: {error}</div>;
   }
 
-  if (!items) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <p>Loading...</p>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-gray-950 text-white">
       <Navbar />
@@ -96,32 +88,40 @@ export default function ProductsPage() {
         </div>
 
         {/* Products */}
+
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {filteredItems.map((product, index) => (
-            <div
-              key={index}
-              className="bg-gray-900 p-4 rounded-xl shadow hover:shadow-lg transition"
-            >
-              <Image
-                src={product.image}
-                alt={product.name}
-                width={300}
-                height={300}
-                className="rounded-lg w-full h-48 object-cover"
-              />
-
-              <h2 className="mt-4 text-lg font-semibold">{product.name}</h2>
-              <p className="text-green-400 font-semibold text-smpx-2 py-1 rounded inline-block w-fit">
-                <span className="text-white">Rs.</span> {product.price}
-              </p>
-
-              <button className="mt-4 w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-medium py-2 rounded-full transition">
-                <ShoppingCart size={16} />
-                Add to Cart
-              </button>
+          {!items || items.length === 0 ? (
+            <div className="col-span-full text-center text-gray-400 py-10 animate-pulse">
+              Loading products...
             </div>
-          ))}
+          ) : (
+            filteredItems.map((product, index) => (
+              <div
+                key={product._id || product.id || index}
+                className="bg-gray-900 p-4 rounded-xl shadow hover:shadow-lg transition"
+              >
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  width={300}
+                  height={300}
+                  className="rounded-lg w-full h-48 object-cover"
+                />
+
+                <h2 className="mt-4 text-lg font-semibold">{product.name}</h2>
+                <p className="text-green-400 font-semibold text-sm px-2 py-1 rounded inline-block w-fit bg-green-950">
+                  <span className="text-white">Rs.</span> {product.price}
+                </p>
+
+                <button className="mt-4 w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-medium py-2 rounded-full transition">
+                  <ShoppingCart size={16} />
+                  Add to Cart
+                </button>
+              </div>
+            ))
+          )}
         </div>
+        {/* END Products */}
       </div>
     </div>
   );
