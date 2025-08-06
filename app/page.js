@@ -30,9 +30,9 @@ export default function HomePage() {
 
         <div className="md:w-1/2">
           <img
-            src="/hero-image.png" // You can update this path or use an online image URL
+            src="/images/cover.png" // You can update this path or use an online image URL
             alt="Shopping Illustration"
-            className="w-full max-w-md mx-auto"
+            className="w-full max-w-md mx-auto rounded-lg shadow-lg"
           />
         </div>
       </section>

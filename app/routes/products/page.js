@@ -5,7 +5,7 @@ import { useItems } from "../../context/ItemContext.js";
 import Navbar from "../../components/Navbar.js";
 import Image from "next/image";
 import Link from "next/link";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, CreditCard } from "lucide-react";
 
 export default function ProductsPage() {
   const { items, error } = useItems();
@@ -72,8 +72,6 @@ export default function ProductsPage() {
       <Navbar />
 
       <div className="max-w-6xl mx-auto px-4 py-10">
-        <h1 className="text-3xl font-bold mb-6 text-center">🛍️ Our Products</h1>
-
         {/* Category Filter & Sort */}
         <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
           <select
@@ -87,6 +85,10 @@ export default function ProductsPage() {
               </option>
             ))}
           </select>
+
+          <h1 className="text-3xl font-bold mb-6 text-center">
+            🛍️ Our Products
+          </h1>
 
           <select
             value={sortOption}
@@ -126,10 +128,23 @@ export default function ProductsPage() {
                   <span className="text-white">Rs.</span> {product.price}
                 </p>
 
-                <button className="mt-4 w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-medium py-2 rounded-full transition">
-                  <ShoppingCart size={16} />
-                  Add to Cart
-                </button>
+                <Link
+                  href={{
+                    pathname: "/routes/buyNow",
+                    query: {
+                      id: product._id,
+                      name: product.name,
+                      price: product.price,
+                      image: product.image,
+                      description : product.description || "No description available",
+                      category: product.category || "Uncategorized",
+                    },
+                  }}
+                  className="mt-4 w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-medium py-2 rounded-full transition"
+                >
+                  <CreditCard size={16} />
+                  Buy Now
+                </Link>
               </div>
             ))
           )}
