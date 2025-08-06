@@ -54,6 +54,19 @@ export default function ProductsPage() {
     return <div className="text-red-500 text-center">Error: {error}</div>;
   }
 
+  function ImageWithFallback({ src, alt, ...props }) {
+    const [imgSrc, setImgSrc] = useState(src);
+
+    return (
+      <Image
+        {...props}
+        src={imgSrc}
+        alt={alt || "Image"}
+        onError={() => setImgSrc("/images/default.png")}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-950 text-white">
       <Navbar />
@@ -100,14 +113,14 @@ export default function ProductsPage() {
                 key={product._id || product.id || index}
                 className="bg-gray-900 p-4 rounded-xl shadow hover:shadow-lg transition"
               >
-                <Image
+                <ImageWithFallback
                   src={product.image}
                   alt={product.name}
                   width={300}
                   height={300}
+                  priority
                   className="rounded-lg w-full h-48 object-cover"
                 />
-
                 <h2 className="mt-4 text-lg font-semibold">{product.name}</h2>
                 <p className="text-green-400 font-semibold text-sm px-2 py-1 rounded inline-block w-fit bg-green-950">
                   <span className="text-white">Rs.</span> {product.price}
