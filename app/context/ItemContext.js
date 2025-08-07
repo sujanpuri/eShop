@@ -5,8 +5,10 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 const ItemContext = createContext();
 
 export function ItemProvider({ children }) {
-  const [items, setItems] = useState(null);
-  const [error, setError] = useState(null);
+  const [items, setItems] = useState("");
+  const [searched, setSearched] = useState("");
+  const [backupItems, setBackupItems] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const timer = setTimeout(async () => {
@@ -28,7 +30,17 @@ export function ItemProvider({ children }) {
   }, []);
 
   return (
-    <ItemContext.Provider value={{ items, error }}>
+    <ItemContext.Provider
+      value={{
+        items,
+        setItems,
+        searched,
+        setSearched,
+        backupItems,
+        setBackupItems,
+        error,
+      }}
+    >
       {children}
     </ItemContext.Provider>
   );
