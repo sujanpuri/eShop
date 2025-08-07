@@ -31,7 +31,7 @@ const ProfilePage = () => {
     <div className="min-h-screen bg-gray-950 text-white">
       <Navbar />
 
-      <div className="max-w-md mx-auto mt-10 px-4 text-center">
+      <div className="max-w-md pt-30 mx-auto text-center">
         <div className="flex flex-col items-center bg-gray-900 rounded-xl p-6 shadow-md">
           <Image
             src={user.image}

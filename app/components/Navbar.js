@@ -21,7 +21,7 @@ export default function Navbar() {
     }`;
 
   return (
-    <nav className="bg-gray-900 text-white p-4">
+    <nav className="bg-gray-900 text-white border-b-[0.5px] p-4 fixed w-full z-50 shadow-md">
       <div className="flex w-full justify-between md:justify-around items-center">
         {/* LEFT: Logo and Title */}
         <div className="flex items-center space-x-3">
@@ -184,7 +184,7 @@ export default function Navbar() {
                   </Button>
                 )}
               </div>
-              <hr className="border-gray-600" />
+              {/* <hr className="border-gray-600" /> */}
             </div>
           </motion.div>
         )}

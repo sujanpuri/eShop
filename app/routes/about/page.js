@@ -7,7 +7,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-gray-950 text-white">
       <Navbar />
 
-      <div className="max-w-3xl mx-auto px-4 py-16 text-center">
+      <div className="max-w-3xl mx-auto pt-33 px-4 py-16 text-center">
         <h1 className="text-4xl font-bold mb-4">🛍️ About Our Store</h1>
         <p className="text-lg text-gray-300 mb-6">
           Welcome to our eCommerce platform! We’re passionate about providing quality products, 

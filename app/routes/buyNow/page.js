@@ -20,7 +20,7 @@ export default function BuyNowPage() {
     <div>
       <Navbar />
 
-      <div className="mt-4 mb-4 text-center">
+      <div className="mt-4 pt-24 mb-4 text-center">
         <h1 className="text-3xl font-bold text-white inline-flex items-center gap-2">
           🛒 Buy Now
         </h1>

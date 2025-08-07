@@ -10,7 +10,7 @@ export default function HomePage() {
       <Navbar />
 
       {/* HERO SECTION */}
-      <section className="flex flex-col-reverse md:flex-row items-center justify-between max-w-6xl mx-auto px-4 py-20 gap-12">
+      <section className="flex pt-27 flex-col-reverse md:flex-row items-center justify-between max-w-6xl mx-auto px-4 pb-15 gap-12">
         <div className="md:w-1/2 text-center md:text-left">
           <h1 className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
             Discover Products <br />

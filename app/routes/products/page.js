@@ -71,7 +71,7 @@ export default function ProductsPage() {
     <div className="min-h-screen bg-gray-950 text-white">
       <Navbar />
 
-      <div className="max-w-6xl mx-auto px-4 py-10">
+      <div className="max-w-6xl pt-25 mx-auto px-4 py-10">
         {/* Category Filter & Sort */}
         <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
           <select
