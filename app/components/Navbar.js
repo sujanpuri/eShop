@@ -10,6 +10,7 @@ import SearchBar from "./ui/SearchBar";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useItems } from "../context/ItemContext";
+import { useCart } from "../context/cartContext";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -20,6 +21,7 @@ export default function Navbar() {
   const { items, setItems } = useItems();
   const { searched, setSearched } = useItems();
   const { backupItems, setBackupItems } = useItems();
+  const { cartItems, isCartOpen, toggleCart, removeFromCart } = useCart();
 
   useEffect(() => {
     if (!searched.trim()) {
@@ -39,7 +41,8 @@ export default function Navbar() {
 
   return (
     <nav className="bg-gray-900 text-white pb-0 fixed w-full z-50 shadow-md">
-      <div className="border-b-[0.5px] py-5">
+      <div className="border-b-[0.5px] py-5 px-3 md:px-6 lg:px-8">
+        {/* Desktop View */}
         <div className="flex w-full justify-between md:justify-around items-center">
           {/* LEFT: Logo and Title */}
           <div className="flex items-center space-x-3">
@@ -72,9 +75,77 @@ export default function Navbar() {
           <div className="flex text-white items-center space-x-4">
             <SearchBar className="hidden md:block" />
 
-            <Link href="/routes/cart">
-              <ShoppingCart className="w-5 h-5 text-white hover:text-gray-400" />
-            </Link>
+            {/* cart */}
+            <button
+              onClick={toggleCart}
+              className="relative p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition"
+            >
+              <ShoppingCart size={20} />
+              {cartItems.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full">
+                  {cartItems.length}
+                </span>
+              )}
+            </button>
+
+            {/* Overlay */}
+            {isCartOpen && (
+              <div
+                onClick={toggleCart}
+                className="fixed inset-0 bg-black bg-opacity-40 z-40"
+              />
+            )}
+
+            {/* Cart Drawer */}
+            <div
+              className={`fixed top-0 right-0 w-80 h-full bg-white shadow-lg z-50 p-4 transition-transform duration-300 ${
+                isCartOpen ? "translate-x-0" : "translate-x-full"
+              }`}
+            >
+              <h2 className="font-bold text-lg mb-4">Your Cart</h2>
+
+              {cartItems.length === 0 ? (
+                <p>No items in cart.</p>
+              ) : (
+                cartItems.map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex items-center justify-between mb-3 border-b pb-2"
+                  >
+                    <div>
+                      <p className="font-medium">{item.name}</p>
+                      <p className="text-sm text-gray-500">
+                        ${item.price} × {item.quantity}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => removeFromCart(item.id)}
+                      className="text-red-500 hover:underline text-sm"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))
+              )}
+
+              {/* Total Price */}
+              {cartItems.length > 0 && (
+                <div className="mt-4 font-bold">
+                  Total: $
+                  {cartItems.reduce(
+                    (sum, item) => sum + item.price * item.quantity,
+                    0
+                  )}
+                </div>
+              )}
+
+              <button
+                onClick={toggleCart}
+                className="mt-4 w-full bg-blue-600 text-white py-2 rounded"
+              >
+                Close Cart
+              </button>
+            </div>
 
             {status === "loading" ? (
               <Button
@@ -138,7 +209,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* MOBILE MENU */}
+        {/* MOBILE VIEW */}
         <AnimatePresence>
           {menuOpen && (
             <motion.div
@@ -147,9 +218,10 @@ export default function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 0 }}
               transition={{ duration: 0.3 }}
-              className="md:hidden flex flex-col gap-3 px-4 py-3 bg-gray-900 text-white"
+              className="md:hidden flex flex-col gap-3 bg-gray-900 text-white"
             >
-              <div className="md:hidden space-y-2">
+              <div className="md:hidden space-y-3 px-3">
+                {/* Navigations */}
                 <div className="flex justify-around items-center mt-5">
                   <Link href="/" className={linkClass("/")}>
                     Home
@@ -160,12 +232,6 @@ export default function Navbar() {
                   >
                     Products
                   </Link>
-                  {/* <Link
-              href="/routes/categories"
-              className="block hover:text-gray-300"
-            >
-              Categories
-            </Link> */}
                   <Link
                     href="/routes/about"
                     className={linkClass("/routes/about")}
@@ -175,6 +241,8 @@ export default function Navbar() {
                 </div>
 
                 <hr className="border-gray-600" />
+
+                {/* Search and Auth Buttons */}
                 <div className="flex items-center justify-between">
                   <SearchBar />
 
@@ -202,7 +270,6 @@ export default function Navbar() {
                     </Button>
                   )}
                 </div>
-                {/* <hr className="border-gray-600" /> */}
               </div>
             </motion.div>
           )}

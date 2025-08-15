@@ -1,13 +1,16 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useItems } from "../../context/ItemContext.js";
 import Navbar from "../../components/Navbar.js";
 import Image from "next/image";
 import Link from "next/link";
 import { ShoppingCart, CreditCard } from "lucide-react";
+import { useCart } from "../../context/cartContext.js";
 
 export default function ProductsPage() {
+  const { addToCart, cartItems } = useCart();
+ 
   const { items, error } = useItems();
   // console.log("Items from context:", items);
 
@@ -67,6 +70,10 @@ export default function ProductsPage() {
     );
   }
 
+  useEffect(() => {
+    console.log("🛒 Cart updated:", cartItems);
+  }, [cartItems]);
+
   return (
     <div className="min-h-screen bg-gray-950 text-white">
       <Navbar />
@@ -115,19 +122,6 @@ export default function ProductsPage() {
                 key={product._id || product.id || index}
                 className="bg-gray-900 p-4 rounded-xl shadow hover:shadow-lg transition"
               >
-                <ImageWithFallback
-                  src={product.image}
-                  alt={product.name}
-                  width={300}
-                  height={300}
-                  priority
-                  className="rounded-lg w-full h-48 object-cover"
-                />
-                <h2 className="mt-4 text-lg font-semibold">{product.name}</h2>
-                <p className="text-green-400 font-semibold text-sm px-2 py-1 rounded inline-block w-fit bg-green-950">
-                  <span className="text-white">Rs.</span> {product.price}
-                </p>
-
                 <Link
                   href={{
                     pathname: "/routes/buyNow",
@@ -136,14 +130,45 @@ export default function ProductsPage() {
                       name: product.name,
                       price: product.price,
                       image: product.image,
-                      description : product.description || "No description available",
+                      description:
+                        product.description || "No description available",
                       category: product.category || "Uncategorized",
                     },
                   }}
-                  className="mt-4 w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-medium py-2 rounded-full transition"
                 >
-                  <CreditCard size={16} />
-                  Buy Now
+                  <ImageWithFallback
+                    src={product.image}
+                    alt={product.name}
+                    width={300}
+                    height={300}
+                    priority
+                    className="rounded-lg w-full h-48 object-cover"
+                  />
+                  <h2 className="mt-4 text-lg font-semibold">{product.name}</h2>
+                  <p className="text-green-400 font-semibold text-sm px-2 py-1 rounded inline-block w-fit bg-green-950">
+                    <span className="text-white">Rs.</span> {product.price}
+                  </p>
+
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      addToCart({
+                        id: product._id,
+                        name: product.name,
+                        price: product.price,
+                        image: product.image,
+                        description:
+                          product.description || "No description available",
+                        category: product.category || "Uncategorized",
+                      });
+
+                    }}
+                    className="mt-4 w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-medium py-2 rounded-full transition"
+                  >
+                    <ShoppingCart size={16} />
+                    Add to Cart
+                  </button>
                 </Link>
               </div>
             ))

@@ -2,6 +2,7 @@ import "./globals.css";
 import { AuthProvider } from "./provider";
 import { UserProvider } from "./context/userContext";
 import { ItemProvider } from "./context/ItemContext";
+import { CartProvider } from "./context/cartContext";
 
 export const metadata = {
   title: "My App",
@@ -14,7 +15,9 @@ export default function RootLayout({ children }) {
       <body>
         <AuthProvider>
           <UserProvider>
-            <ItemProvider>{children}</ItemProvider>
+            <ItemProvider>
+              <CartProvider>{children}</CartProvider>
+            </ItemProvider>
           </UserProvider>
         </AuthProvider>
       </body>
