@@ -23,7 +23,6 @@ export const CartProvider = ({ children }) => {
           return [...prevCart, { ...product, quantity: 1 }];
         }
       });
-      setIsCartOpen(true); // Open cart on add
     } catch (error) {
       console.error("Error adding to cart:", error);
     }

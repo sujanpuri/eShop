@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useSession, signIn, signOut } from "next-auth/react";
-import { Handbag, Menu, ShoppingCart, Loader, X } from "lucide-react";
+import { Handbag, Menu, ShoppingCart, Loader, X, Trash2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import Button from "./ui/Button";
 import SearchBar from "./ui/SearchBar";
@@ -46,8 +46,11 @@ export default function Navbar() {
         <div className="flex w-full justify-between md:justify-around items-center">
           {/* LEFT: Logo and Title */}
           <div className="flex items-center space-x-3">
-            <Handbag className="w-10 h-10 text-gray-800 bg-white p-2 rounded-full shadow" />
-            <Link href="/" className="text-2xl font-bold hover:text-gray-300">
+            <Handbag className="w-10 h-10 text-white bg-blue-600 p-2 rounded-full shadow" />
+            <Link
+              href="/"
+              className="text-2xl font-bold text-blue-500 hover:text-blue-400"
+            >
               MyShop
             </Link>
           </div>
@@ -75,10 +78,10 @@ export default function Navbar() {
           <div className="flex text-white items-center space-x-4">
             <SearchBar className="hidden md:block" />
 
-            {/* cart */}
+            {/* Cart Button */}
             <button
               onClick={toggleCart}
-              className="relative p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition"
+              className="relative p-2 rounded-full hover:bg-gray-700 transition"
             >
               <ShoppingCart size={20} />
               {cartItems.length > 0 && (
@@ -92,59 +95,76 @@ export default function Navbar() {
             {isCartOpen && (
               <div
                 onClick={toggleCart}
-                className="fixed inset-0 bg-black bg-opacity-40 z-40"
+                className="fixed inset-0 backdrop-blur-sm z-40"
               />
             )}
 
-            {/* Cart Drawer */}
+            {/* Component - Cart Drawer */}
             <div
-              className={`fixed top-0 right-0 w-80 h-full bg-white shadow-lg z-50 p-4 transition-transform duration-300 ${
+              className={`fixed top-0 right-[-20px] w-100 h-full bg-gray-800 shadow-lg z-50 p-4 transition-transform duration-300 ${
                 isCartOpen ? "translate-x-0" : "translate-x-full"
               }`}
             >
-              <h2 className="font-bold text-lg mb-4">Your Cart</h2>
+              {/* Cart Header */}
+              <div className="flex justify-between">
+                <h2 className="font-extrabold text-2xl text-blue-500">Cart</h2>
+                <button
+                  onClick={toggleCart}
+                  className=" text-red-500 hover:bg-red-950 hover:text-white px-1 rounded-full"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+              <hr className="my-2 mb-5" />
 
-              {cartItems.length === 0 ? (
-                <p>No items in cart.</p>
-              ) : (
-                cartItems.map((item) => (
-                  <div
-                    key={item.id}
-                    className="flex items-center justify-between mb-3 border-b pb-2"
-                  >
-                    <div>
-                      <p className="font-medium">{item.name}</p>
-                      <p className="text-sm text-gray-500">
-                        ${item.price} × {item.quantity}
-                      </p>
-                    </div>
-                    <button
-                      onClick={() => removeFromCart(item.id)}
-                      className="text-red-500 hover:underline text-sm"
+              <div className="max-h-[80vh] overflow-y-auto">
+                {cartItems.length === 0 ? (
+                  <p>No items in cart.</p>
+                ) : (
+                  cartItems.map((item) => (
+                    <div
+                      key={item.id}
+                      className="flex items-center justify-between mb-3 border-b pb-2"
                     >
-                      Remove
-                    </button>
-                  </div>
-                ))
-              )}
+                      {/* cart items */}
+                      <div className="flex items-center">
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          width={50}
+                          height={50}
+                          className="w-16 h-16 object-cover mr-3 rounded"
+                        />
+                        <div>
+                          <p className="font-medium">{item.name}</p>
+                          <p className="text-sm text-gray-500">
+                            Rs. {item.price} × {item.quantity}
+                          </p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => removeFromCart(item.id)}
+                        className="text-red-500 text-sm"
+                      >
+                        <Trash2 className="w-5 h-5" />
+                      </button>
+                    </div>
+                  ))
+                )}
+              </div>
 
               {/* Total Price */}
               {cartItems.length > 0 && (
-                <div className="mt-4 font-bold">
-                  Total: $
-                  {cartItems.reduce(
-                    (sum, item) => sum + item.price * item.quantity,
-                    0
-                  )}
+                <div className="mt-4 font-bold flex items-center w-full justify-center">
+                  Total: Rs.
+                  <div className="text-xl ml-1 text-green-400">
+                    {cartItems.reduce(
+                      (sum, item) => sum + item.price * item.quantity,
+                      0
+                    )}
+                  </div>
                 </div>
               )}
-
-              <button
-                onClick={toggleCart}
-                className="mt-4 w-full bg-blue-600 text-white py-2 rounded"
-              >
-                Close Cart
-              </button>
             </div>
 
             {status === "loading" ? (
