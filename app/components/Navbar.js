@@ -297,7 +297,7 @@ export default function Navbar() {
       </div>
 
       {searched && (
-        <div className="absolute top-full left-0 right-0 bg-gray-900 text-white p-4 shadow-md z-50 flex flex-col items-center">
+        <div className="absolute top-full left-0 right-0 bg-gray-900 text-white p-4 shadow-md z-0 flex flex-col items-center">
           <div>
             <h2 className="font-bold mb-2">Search results for: "{searched}"</h2>
 
