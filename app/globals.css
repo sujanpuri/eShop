@@ -23,6 +23,30 @@
   -moz-appearance: textfield; /* Firefox */
 }
 
+/* For Webkit browsers (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 6px; /* thin scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* or a light gray */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #a1a1aa; /* Tailwind zinc-400 */
+  border-radius: 9999px; /* fully rounded */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #71717a; /* darker on hover */
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #a1a1aa transparent;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;

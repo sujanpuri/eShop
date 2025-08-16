@@ -10,7 +10,7 @@ import { useCart } from "../../context/cartContext.js";
 
 export default function ProductsPage() {
   const { addToCart, cartItems } = useCart();
- 
+
   const { items, error } = useItems();
   // console.log("Items from context:", items);
 
@@ -79,34 +79,38 @@ export default function ProductsPage() {
       <Navbar />
 
       <div className="max-w-6xl pt-25 mx-auto px-4 py-10">
-        {/* Category Filter & Sort */}
-        <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-          <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            className="bg-gray-800 border border-gray-700 text-white px-4 py-2 rounded"
-          >
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </select>
-
+        <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold mb-6 text-center">
             🛍️ Our Products
           </h1>
 
-          <select
-            value={sortOption}
-            onChange={(e) => setSortOption(e.target.value)}
-            className="bg-gray-800 border border-gray-700 text-white px-4 py-2 rounded"
-          >
-            <option value="name-asc">Name (A-Z)</option>
-            <option value="name-desc">Name (Z-A)</option>
-            <option value="price-asc">Price (Low to High)</option>
-            <option value="price-desc">Price (High to Low)</option>
-          </select>
+          <div className="flex">
+            {/* Category Filter & Sort */}
+            <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="bg-gray-800 border border-gray-700 text-white px-4 py-2 rounded"
+              >
+                {categories.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                value={sortOption}
+                onChange={(e) => setSortOption(e.target.value)}
+                className="bg-gray-800 border border-gray-700 text-white px-4 py-2 rounded"
+              >
+                <option value="name-asc">Name (A-Z)</option>
+                <option value="name-desc">Name (Z-A)</option>
+                <option value="price-asc">Price (Low to High)</option>
+                <option value="price-desc">Price (High to Low)</option>
+              </select>
+            </div>
+          </div>
         </div>
 
         {/* Products */}
@@ -162,7 +166,6 @@ export default function ProductsPage() {
                           product.description || "No description available",
                         category: product.category || "Uncategorized",
                       });
-
                     }}
                     className="mt-4 w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-medium py-2 rounded-full transition"
                   >
