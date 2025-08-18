@@ -23,6 +23,7 @@ export default function Navbar() {
   const { backupItems, setBackupItems } = useItems();
   const { cartItems, isCartOpen, toggleCart, removeFromCart } = useCart();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!searched.trim()) {
       setBackupItems(items);

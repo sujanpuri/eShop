@@ -53,6 +53,10 @@ export default function ProductsPage() {
     return filtered;
   }, [items, selectedCategory, sortOption]);
 
+  useEffect(() => {
+    console.log("🛒 Cart updated:", cartItems);
+  }, [cartItems]);
+
   if (error) {
     return <div className="text-red-500 text-center">Error: {error}</div>;
   }
@@ -69,10 +73,6 @@ export default function ProductsPage() {
       />
     );
   }
-
-  useEffect(() => {
-    console.log("🛒 Cart updated:", cartItems);
-  }, [cartItems]);
 
   return (
     <div className="min-h-screen bg-gray-950 text-white">

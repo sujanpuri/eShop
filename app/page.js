@@ -3,6 +3,7 @@
 import Navbar from "./components/Navbar.js";
 import Link from "next/link";
 import { ShoppingBag, ArrowRight } from "lucide-react";
+import Image from "next/image.js";
 
 export default function HomePage() {
   return (
@@ -29,8 +30,10 @@ export default function HomePage() {
         </div>
 
         <div className="md:w-1/2">
-          <img
-            src="/images/cover.png" // You can update this path or use an online image URL
+          <Image
+            src="/images/cover.png"
+            width={500}
+            height={500}
             alt="Shopping Illustration"
             className="w-full max-w-md mx-auto rounded-lg shadow-lg"
           />
