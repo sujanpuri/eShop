@@ -134,6 +134,8 @@ export default function ProductsPage() {
                       name: product.name,
                       price: product.price,
                       image: product.image,
+                      quantity: product.quantity || 0,
+                      soldcount: product.soldcount || 0,
                       description:
                         product.description || "No description available",
                       category: product.category || "Uncategorized",

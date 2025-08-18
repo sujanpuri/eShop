@@ -29,6 +29,7 @@ export function ItemProvider({ children }) {
     return () => clearTimeout(timer);
   }, []);
 
+  console.log("Items: ", items);
   return (
     <ItemContext.Provider
       value={{

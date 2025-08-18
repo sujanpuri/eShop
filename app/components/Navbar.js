@@ -49,7 +49,7 @@ export default function Navbar() {
             <Handbag className="w-10 h-10 text-white bg-blue-600 p-2 rounded-full shadow" />
             <Link
               href="/"
-              className="text-2xl font-bold text-blue-500 hover:text-blue-400"
+              className="text-2xl font-bold text-white hover:text-gray-200"
             >
               MyShop
             </Link>
